@@ -1,6 +1,6 @@
 (function() {
 
-  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create });
 
 function preload() {
 
@@ -16,39 +16,42 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.P2JS);
 
+  // Keep balloons from colliding at world bounds  
+  game.physics.p2.updateBoundsCollisionGroup(true);
+
   // BALLOON 1
 
-  balloon1 = game.add.sprite(220, 600, 'balloon');
+  balloon1 = game.add.sprite(240, 600, 'balloon');
   text1 = game.add.text(-15, -60, '70', { fontSize: '25px', fill: '#ffffff' });
   balloon1.addChild(text1);
-  game.physics.enable(balloon1, Phaser.Physics.P2JS);
-  balloon1.body.velocity.y = -100;
-  balloon1.body.fixedRotation = true;
-  balloon1.body.setCircle(45);
+  game.physics.enable(balloon1, Phaser.Physics.P2JS); // Lets ballon sprite set body properties
+  balloon1.body.velocity.y = -100; // Negative value for upward direction
+  balloon1.body.fixedRotation = true; // Keeps baloon from rotating on collision.
+                                      // Sprite rotation on collision is default 
+                                      // behavior of P2 Physics
+  balloon1.body.setCircle(45); // Detect collision only on balloon
+                               // i.e., on circle with radius 45
 
   // BALLOON 2
 
-  balloon2 = game.add.sprite(300, 300, 'balloon');
+  balloon2 = game.add.sprite(300, 600, 'balloon');
   text2 = game.add.text(-15, -60, '80', { fontSize: '25px', fill: '#ffffff' });
   balloon2.addChild(text2);
   game.physics.enable(balloon2, Phaser.Physics.P2JS);
-  balloon2.body.velocity.y = -100;
+  balloon2.body.velocity.y = -200;
   balloon2.body.fixedRotation = true;
   balloon2.body.setCircle(45);
 
   // BALLOON 3
 
-  balloon3 = game.add.sprite(400, 300, 'balloon');
+  balloon3 = game.add.sprite(380, 600, 'balloon');
   text3 = game.add.text(-15, -60, '90', { fontSize: '25px', fill: '#ffffff' });
   balloon3.addChild(text3);
   game.physics.enable(balloon3, Phaser.Physics.P2JS);
-  balloon3.body.velocity.y = -100;
+  balloon3.body.velocity.y = -300;
   balloon3.body.fixedRotation = true;
   balloon3.body.setCircle(45);
 
-}
-
-function update() {
 }
 
 })();

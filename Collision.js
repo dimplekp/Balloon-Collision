@@ -31,7 +31,9 @@ function create() {
                                       // behavior of P2 Physics
   balloon1.body.setCircle(45); // Detect collision only on balloon
                                // i.e., on circle with radius 45
-  balloon1.outOfBoundsKill = true
+  balloon1.checkWorldBounds = true;
+  balloon1.events.onOutOfBounds.add(balloonLeftWorld, this);
+  
   // BALLOON 2
 
   balloon2 = game.add.sprite(300, 600, 'balloon');
@@ -41,7 +43,8 @@ function create() {
   balloon2.body.velocity.y = -200;
   balloon2.body.fixedRotation = true;
   balloon2.body.setCircle(45);
-  balloon2.outOfBoundsKill = true
+  balloon2.checkWorldBounds = true;
+  balloon2.events.onOutOfBounds.add(balloonLeftWorld, this);
 
   // BALLOON 3
 
@@ -52,7 +55,13 @@ function create() {
   balloon3.body.velocity.y = -300;
   balloon3.body.fixedRotation = true;
   balloon3.body.setCircle(45);
-  balloon3.outOfBoundsKill = true
+  balloon3.checkWorldBounds = true;
+  balloon3.events.onOutOfBounds.add(balloonLeftWorld, this);
+
+  function balloonLeftWorld(balloon) {
+    balloon.destroy();
+    //console.log(balloon);
+  }
 
 }
 

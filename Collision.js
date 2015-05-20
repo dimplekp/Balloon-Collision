@@ -34,7 +34,7 @@ function balloonLeftWorld(balloon) {
   console.log(balloon);
 }
 
-function collisionWithMassSet() {
+function setMassAndGravity() {
   balloon1.body.mass = 1;
   balloon1.body.gravity.y = -100;
 
@@ -45,7 +45,7 @@ function collisionWithMassSet() {
   balloon3.body.gravity.y = -100;
 }
 
-function generateBalloonWithCollisionRemovingBalloon() {
+function generateBalloonWithBugSituation() {
 
   balloon1 = game.add.sprite(240, 400, 'balloon');
 
@@ -76,7 +76,7 @@ function setVelocities() {
 
 function flyBalloons() {
   
-  generateBalloonWithCollisionRemovingBalloon();
+  generateBalloonWithBugSituation();
 
   // BALLOON 1
 
@@ -116,7 +116,7 @@ function flyBalloons() {
   balloon3.events.onOutOfBounds.add(balloonLeftWorld, this);
 
   setVelocities();
-  collisionWithMassSet();
+  setMassAndGravity();
 }
 
 })();

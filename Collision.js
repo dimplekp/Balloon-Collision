@@ -35,14 +35,14 @@ function balloonLeftWorld(balloon) {
 }
 
 function collisionWithMassSet() {
-  /*balloon1.body.mass = 3;
+  balloon1.body.mass = 1;
   balloon1.body.gravity.y = -100;
 
-  balloon2.body.mass = 1;
+  balloon2.body.mass = 2;
   balloon2.body.gravity.y = -100;
 
   balloon3.body.mass = 1;
-  balloon3.body.gravity.y = -100;*/
+  balloon3.body.gravity.y = -100;
 }
 
 function generateBalloonWithCollisionRemovingBalloon() {
@@ -71,7 +71,7 @@ function setVelocities() {
 
   balloon2.body.velocity.y = -110;
 
-  //balloon3.body.velocity.y = -1000;
+  balloon3.body.velocity.y = 0;
 }
 
 function flyBalloons() {

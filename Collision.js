@@ -1,6 +1,6 @@
 (function() {
 
-  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create });
+  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -9,6 +9,12 @@ function preload() {
 
 var sprite2;
 var sprite3;
+
+function update() {
+  balloon1.alpha -= 50;
+  balloon2.alpha -= 50;
+  balloon3.alpha -= 50;
+}
 
 function create() {
 

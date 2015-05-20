@@ -18,6 +18,8 @@ function update() {
 
 function create() {
 
+  game.world.setBounds(0, 0, 800, 800);
+
   game.stage.backgroundColor = '#124184';
 
   game.physics.startSystem(Phaser.Physics.P2JS);
@@ -25,13 +27,62 @@ function create() {
   // Keep balloons from colliding at world bounds  
   game.physics.p2.updateBoundsCollisionGroup(true);
 
-  // BALLOON 1
+  flyBalloons();
+}
+
+function balloonLeftWorld(balloon) {
+  console.log(balloon);
+}
+
+function collisionWithMassSet() {
+  /*balloon1.body.mass = 3;
+  balloon1.body.gravity.y = -100;
+
+  balloon2.body.mass = 1;
+  balloon2.body.gravity.y = -100;
+
+  balloon3.body.mass = 1;
+  balloon3.body.gravity.y = -100;*/
+}
+
+function generateBalloonWithCollisionRemovingBalloon() {
+
+  balloon1 = game.add.sprite(240, 400, 'balloon');
+
+  balloon2 = game.add.sprite(240, 400, 'balloon');
+
+  balloon3 = game.add.sprite(240, 800, 'balloon');
+
+}
+
+function generateSimpleBalloons() {
 
   balloon1 = game.add.sprite(240, 600, 'balloon');
+
+  balloon2 = game.add.sprite(300, 600, 'balloon');
+
+  balloon3 = game.add.sprite(380, 600, 'balloon');
+
+}
+
+function setVelocities() {
+
+  balloon1.body.velocity.y = -180; // Negative value for upward direction
+
+  balloon2.body.velocity.y = -110;
+
+  //balloon3.body.velocity.y = -1000;
+}
+
+function flyBalloons() {
+  
+  generateBalloonWithCollisionRemovingBalloon();
+
+  // BALLOON 1
+
   text1 = game.add.text(-15, -60, '70', { fontSize: '25px', fill: '#ffffff' });
   balloon1.addChild(text1);
   game.physics.enable(balloon1, Phaser.Physics.P2JS); // Lets ballon sprite set body properties
-  balloon1.body.velocity.y = -100; // Negative value for upward direction
   balloon1.body.fixedRotation = true; // Keeps baloon from rotating on collision.
                                       // Sprite rotation on collision is default 
                                       // behavior of P2 Physics
@@ -44,11 +95,9 @@ function create() {
   
   // BALLOON 2
 
-  balloon2 = game.add.sprite(300, 600, 'balloon');
   text2 = game.add.text(-15, -60, '80', { fontSize: '25px', fill: '#ffffff' });
   balloon2.addChild(text2);
   game.physics.enable(balloon2, Phaser.Physics.P2JS);
-  balloon2.body.velocity.y = -200;
   balloon2.body.fixedRotation = true;
   balloon2.body.setCircle(45);
   balloon2.checkWorldBounds = true;
@@ -57,21 +106,17 @@ function create() {
 
   // BALLOON 3
 
-  balloon3 = game.add.sprite(380, 600, 'balloon');
   text3 = game.add.text(-15, -60, '90', { fontSize: '25px', fill: '#ffffff' });
   balloon3.addChild(text3);
   game.physics.enable(balloon3, Phaser.Physics.P2JS);
-  balloon3.body.velocity.y = -300;
   balloon3.body.fixedRotation = true;
   balloon3.body.setCircle(45);
   balloon3.checkWorldBounds = true;
   balloon3.outOfBoundsKill = true
   balloon3.events.onOutOfBounds.add(balloonLeftWorld, this);
 
-}
-
-function balloonLeftWorld(balloon) {
-  console.log(balloon);
+  setVelocities();
+  collisionWithMassSet();
 }
 
 })();

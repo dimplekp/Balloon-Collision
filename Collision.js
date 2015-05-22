@@ -1,11 +1,15 @@
 (function() {
 
-  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create });
+  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
 
   game.load.spritesheet('balloon', 'balloon-pink.png');
   game.load.spritesheet('tile', 'transparent-tile.png');
+}
+
+function update() {
+  this.game.physics.p2.onBeginContact.add(contactHandler);
 }
 
 var sprite2;
@@ -22,25 +26,23 @@ function create() {
   // Make things a bit more bouncey
   game.physics.p2.restitution = 0.8;
 
+  game.physics.p2.applyGravity = true;
+
   // Keep balloons from colliding at world bounds  
   game.physics.p2.updateBoundsCollisionGroup(true);
 
   // Generate transparent tile on the bottom to stop balloons from
   // going out of the world from bottom
-  tile = game.add.sprite(400, 600, 'tile');
-  game.physics.enable(tile, Phaser.Physics.P2JS);
-  tile.body.static = true;  
+  tile1 = game.add.sprite(400, 600, 'tile');
+  game.physics.enable(tile1, Phaser.Physics.P2JS);
+  tile1.body.static = true;  
 
   flyBalloons();
 }
 
-function balloonLeftWorld(balloon) {
-  console.log(balloon);
-}
-
-function setMassAndGravity() {
-  balloon1.body.mass = 20; // This makes it possible for upper body to move slowly
-                           // and it also make the lower balloon slow
+function setMass() {
+  balloon1.body.mass = 1; // This makes it possible for upper body to move slowly
+                           // and it also makes the lower balloon slow
   balloon2.body.mass = 1;
 
   balloon3.body.mass = 1;
@@ -48,9 +50,9 @@ function setMassAndGravity() {
 
 function generateBalloonWithBugSituation() {
 
-  balloon1 = game.add.sprite(240, 400, 'balloon');
+  balloon1 = game.add.sprite(240, 500, 'balloon');
 
-  balloon2 = game.add.sprite(240, 400, 'balloon');
+  balloon2 = game.add.sprite(240, 500, 'balloon');
 
   balloon3 = game.add.sprite(240, 800, 'balloon');
 }
@@ -66,12 +68,11 @@ function generateSimpleBalloons() {
 
 function setVelocities() {
 
-  balloon1.body.velocity.y = -120; // Negative value for upward direction
+  balloon1.body.velocity.y = -260; // Negative value for upward direction
 
-  //game.time.events.add(1100, function(){ balloon2.body.velocity.y = -110;}, this);
-  balloon2.body.velocity.y = -110;
+  balloon2.body.velocity.y = -180;
   
-  balloon3.body.velocity.y = 0;
+  balloon3.body.velocity.y = -120;
 }
 
 function flyBalloons() {
@@ -91,7 +92,6 @@ function flyBalloons() {
   balloon1.checkWorldBounds = true;
   // Kill balloon when it leaves the world
   balloon1.outOfBoundsKill = true
-  balloon1.events.onOutOfBounds.add(balloonLeftWorld, this);
   
   // BALLOON 2
 
@@ -102,7 +102,6 @@ function flyBalloons() {
   balloon2.body.setCircle(45);
   balloon2.checkWorldBounds = true;
   balloon2.outOfBoundsKill = true
-  balloon2.events.onOutOfBounds.add(balloonLeftWorld, this);
 
   // BALLOON 3
 
@@ -113,10 +112,16 @@ function flyBalloons() {
   balloon3.body.setCircle(45);
   balloon3.checkWorldBounds = true;
   balloon3.outOfBoundsKill = true
-  balloon3.events.onOutOfBounds.add(balloonLeftWorld, this);
 
   setVelocities();
-  setMassAndGravity();
+}
+
+function contactHandler(bodyA, bodyB, shapeA, shapeB, contactEquations) {
+  console.log(contactEquations[0].bodyA.parent.mass); // Mass of body A
+  console.log(contactEquations[0].bodyB.parent.mass); // Mass of body B
+  contactEquations[0].bodyA.parent.mass = 1;
+  contactEquations[0].bodyB.parent.mass = 50; // Increase mass of body B to
+                                              // reduce it's speed after collision
 }
 
 })();
